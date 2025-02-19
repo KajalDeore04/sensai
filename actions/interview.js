@@ -126,3 +126,33 @@ if(wrongAnswers.length > 0){
 }
 
 }
+
+
+export async function getAssessments(){
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: {
+      clerkUserId: userId,
+    },
+  });
+  if (!user) throw new Error("User not found");
+
+  try {
+    const assessment = await db.assessment.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    })
+
+    return assessment
+  } catch (error) {
+    console.log("Error fetching assessments:", error);
+    throw new Error("Failed to fetch assessments");
+    
+  }
+}
