@@ -8,4 +8,4 @@ const InterviewPage = () => {
     );
 }
 
-export default InterviewPagePage;
+export default InterviewPage;

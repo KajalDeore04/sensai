@@ -79,7 +79,7 @@ const questionResults = questions.map((q, index) => ({
 const wrongAnswers = questionResults.filter(q => !q.isCorrect);
 let improvementTip = null;
 
-if(wrongAnswers.length === 0){
+if(wrongAnswers.length > 0){
     const wrongQuestionsText = wrongAnswers.map((q) => 
         `Question: '${q.question}'"\nCorrect Answer: "${q.answer}"\nYour Answer: "${q.userAnswer}"`).join("\n\n");
 
