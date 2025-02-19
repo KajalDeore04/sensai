@@ -402,16 +402,14 @@ export default function ResumeBuilder({ initialContent }) {
               onChange={setPreviewContent}
               height={800}
               preview={resumeMode}
+              style={{ backgroundColor: "#0d1117", color: "#ffffff" }}
             />
           </div>
           <div className="hidden">
             <div id="resume-pdf">
               <MDEditor.Markdown
                 source={previewContent}
-                style={{
-                  background: "white",
-                  color: "black",
-                }}
+                style={{ backgroundColor: "#0d1117", color: "#ffffff" }}
               />
             </div>
           </div>
