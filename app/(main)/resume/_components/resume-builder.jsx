@@ -409,7 +409,7 @@ export default function ResumeBuilder({ initialContent }) {
             <div id="resume-pdf">
               <MDEditor.Markdown
                 source={previewContent}
-                style={{ backgroundColor: "#0d1117", color: "#ffffff" }}
+                style={{ backgroundColor: "#ffffff", color: "#000000" }}
               />
             </div>
           </div>
