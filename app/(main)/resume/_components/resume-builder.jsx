@@ -399,7 +399,7 @@ export default function ResumeBuilder({ initialContent }) {
               onChange={setPreviewContent}
               height={800}
               preview={resumeMode}
-              
+             
             />
           </div>
           <div className="hidden">
@@ -407,7 +407,7 @@ export default function ResumeBuilder({ initialContent }) {
               <MDEditor.Markdown
                 source={previewContent}
                 style={{
-                  background: "fffff",
+                  background: "white",
                   color: "black",
                 }}
               />
