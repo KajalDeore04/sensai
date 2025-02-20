@@ -1,4 +1,5 @@
-"use server"
+"use server";
+
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -7,19 +8,21 @@ import { revalidatePath } from "next/cache";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-export async function saveResume() {
+export async function saveResume(content) {
   const { userId } = await auth();
+  console.log("userId", userId);
+  
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
-    },
+    where: { clerkUserId: userId },
   });
+  console.log("User from DB:", user);
+
   if (!user) throw new Error("User not found");
 
   try {
-    //if resume exists, update it, else create it
+    console.log("Before saving/updating resume..."); // Debugging line
     const resume = await db.resume.upsert({
       where: {
         userId: user.id,
@@ -32,24 +35,24 @@ export async function saveResume() {
         content,
       },
     });
+    console.log("Resume saved successfully:", resume); // Debugging line
 
-    revalidatePath(`/resume/${user.id}`);
+    revalidatePath("/resume");
+    return resume;
   } catch (error) {
-    console.log("Error saving resume", error.message);
+    console.error("Error saving resume:", error);
     throw new Error("Failed to save resume");
   }
 }
 
-// fetch existing resume
 export async function getResume() {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
-    },
+    where: { clerkUserId: userId },
   });
+
   if (!user) throw new Error("User not found");
 
   return await db.resume.findUnique({
@@ -64,10 +67,12 @@ export async function improveWithAI({ current, type }) {
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
+    where: { clerkUserId: userId },
+    include: {
+      industryInsight: true,
     },
   });
+
   if (!user) throw new Error("User not found");
 
   const prompt = `

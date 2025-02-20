@@ -49,7 +49,6 @@ export default function ResumeBuilder({ initialContent }) {
     },
   });
 
-  //api
   const {
     loading: isSaving,
     fn: saveResumeFn,
@@ -81,8 +80,6 @@ export default function ResumeBuilder({ initialContent }) {
       toast.error(saveError.message || "Failed to save resume");
     }
   }, [saveResult, saveError, isSaving]);
-
-
 
   const getContactMarkdown = () => {
     const { contactInfo } = formValues;
@@ -402,14 +399,17 @@ export default function ResumeBuilder({ initialContent }) {
               onChange={setPreviewContent}
               height={800}
               preview={resumeMode}
-              style={{ backgroundColor: "#0d1117", color: "#ffffff" }}
+              
             />
           </div>
           <div className="hidden">
             <div id="resume-pdf">
               <MDEditor.Markdown
                 source={previewContent}
-                style={{ backgroundColor: "#ffffff", color: "#000000" }}
+                style={{
+                  background: "fffff",
+                  color: "black",
+                }}
               />
             </div>
           </div>
